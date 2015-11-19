@@ -9,6 +9,6 @@ package DAO;
  *
  * @author shermainesy
  */
-public class Food {
+public class FoodDAO {
     
 }

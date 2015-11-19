@@ -24,6 +24,10 @@
         <servlet-name>RandomizeServlet</servlet-name>
         <servlet-class>Controller.RandomizeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>Controller.RegisterServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GetTopServelt</servlet-name>
         <url-pattern>/GetTopServelt</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>RandomizeServlet</servlet-name>
         <url-pattern>/RandomizeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/RegisterServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

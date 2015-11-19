@@ -9,6 +9,6 @@ package DAO;
  *
  * @author shermainesy
  */
-public class Comments {
+public class CommentsDAO {
     
 }
