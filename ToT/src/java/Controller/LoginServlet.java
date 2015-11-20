@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONException;
 import org.json.JSONObject;
  
 public class LoginServlet extends HttpServlet {
@@ -47,11 +50,16 @@ public class LoginServlet extends HttpServlet {
         User user = new User();
         user.setUserName(params[0]);
         user.setPassword(params[1]);
-        DAO.authenticate(user);
+        try {
+           json = DAO.authenticate(user);
+        } catch (JSONException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
         //System.out.println(json);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json.toString());
+        System.out.println(json.toString());
     }
  
     /** 
