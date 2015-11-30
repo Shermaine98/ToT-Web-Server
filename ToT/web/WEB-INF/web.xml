@@ -9,10 +9,6 @@
         <servlet-class>Controller.GetFavoritesServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>GetHistoryServlet</servlet-name>
-        <servlet-class>Controller.GetHistoryServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>Controller.LoginServlet</servlet-class>
     </servlet>
@@ -35,10 +31,6 @@
     <servlet-mapping>
         <servlet-name>GetFavoritesServlet</servlet-name>
         <url-pattern>/GetFavoritesServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>GetHistoryServlet</servlet-name>
-        <url-pattern>/GetHistoryServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>

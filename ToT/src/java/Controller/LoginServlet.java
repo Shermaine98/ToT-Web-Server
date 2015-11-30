@@ -2,6 +2,7 @@ package Controller;
 
 import DAO.UserDAO;
 import Model.User;
+import com.google.gson.Gson;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,39 +28,30 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //response.setContentType("text/html;charset=UTF-8");
-        JSONObject json = new JSONObject();
-         
- 
-        //ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
-        Enumeration paramNames = request.getParameterNames();
-        String params[] = new String[2];
-        int i = 0;
-        while (paramNames.hasMoreElements()) {
-            String paramName = (String) paramNames.nextElement();
- 
-            System.out.println(paramName);
-            String[] paramValues = request.getParameterValues(paramName);
-            params[i] = paramValues[0];
- 
-            System.out.println(params[i]);
-            i++;
- 
-        }
-
-        UserDAO DAO = new UserDAO();
+       
         User user = new User();
-        user.setUserName(params[0]);
-        user.setPassword(params[1]);
-        try {
-           json = DAO.authenticate(user);
-        } catch (JSONException ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //System.out.println(json);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(json.toString());
-        System.out.println(json.toString());
+        User user2 = new User();
+        UserDAO DAO = new UserDAO();
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        
+        user.setUserName(username);
+        user.setPassword(password);
+        user2 = DAO.authenticate(user);
+       
+        // String userID = "";
+        Gson g = new Gson();
+        //userID = g.toJson(userid);
+        
+        String u = "";
+      //  User usersearch = DAO.getUser(userid);
+        u = g.toJson(user2);
+
+        
+        if(!u.isEmpty())
+            response.getWriter().print(u);
+        else
+            response.getWriter().print("error");
     }
  
     /** 

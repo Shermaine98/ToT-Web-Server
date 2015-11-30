@@ -5,6 +5,8 @@
  */
 package Controller;
 
+import DAO.UserDAO;
+import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -31,16 +33,18 @@ public class RegisterServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet RegisterServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet RegisterServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+         String userName = request.getParameter("userName");
+         String password = request.getParameter("password");
+         String email = request.getParameter("email");
+         
+         User user = new User(email,userName,password);
+         UserDAO userDAO = new UserDAO();
+         
+        boolean value =   userDAO.register(user);
+        
+        // TODO: return true to client else return false to client taost
+         
+         
         }
     }
 

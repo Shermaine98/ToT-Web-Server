@@ -1,29 +1,27 @@
 package DAO;
 
 import Database.DBConnectionFactory;
+import Model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  *
  * @author shermainesy
- * 
+ *
  */
 public class UserDAO {
-   
+
     /**
      * Register UserDAO
      *
      * @param newUser
      * @return
      */
-
     public boolean register(Model.User newUser) {
         try {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
@@ -46,19 +44,16 @@ public class UserDAO {
         }
         return false;
     }
-    
-    
-    
+
     /**
      * Authenticate
      *
      * @param User
      * @return
      */
+    public User authenticate(Model.User User) {
 
-    public JSONObject authenticate(Model.User User) throws JSONException {
-        boolean valid = false;
-         JSONObject json = new JSONObject();
+       User user = new User();
         try {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
             Connection conn = myFactory.getConnection();
@@ -66,25 +61,23 @@ public class UserDAO {
             String query = "select * from User where username = ? and password = ?";
             PreparedStatement pstmt = conn.prepareStatement(query);
             System.out.println("dao" + User.getUserName());
+
             pstmt.setString(1, User.getUserName());
             pstmt.setString(2, User.getPassword());
 
             ResultSet rs = pstmt.executeQuery();
-             if (rs.next()) {
-                json.put("info", "success");
-            } else {
-                json.put("info", "fail");
+            if (rs.next()) {
+                user.setUserID(rs.getInt("userID"));
+                user.setUserName(rs.getString("userName"));
+                user.setPassword(rs.getString("password"));
+                user.setEmail(rs.getString("Email"));
             }
-             conn.close();
-            System.out.println(json.toString());
-             return json;
-            
+            conn.close();
+            return User;
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
 
-    
-    
 }
