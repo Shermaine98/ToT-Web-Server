@@ -37,25 +37,23 @@ public class LoginServlet extends HttpServlet {
         UserDAO DAO = new UserDAO();
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-       
-        System.out.println(username);
-        System.out.println(password);
-        
+
         user.setUserName(username);
         user.setPassword(password);
-        
+
         user2 = DAO.authenticate(user);
+
         Gson g = new Gson();
-        
+
         String u = "";
-      
+
+ 
          u = g.toJson(user2);
 
 
-        if(!u.isEmpty()){
+        if (!u.isEmpty()) {
             response.getWriter().print(u);
-        }
-        else{
+        } else {
             response.getWriter().print("error");
         }
     }
