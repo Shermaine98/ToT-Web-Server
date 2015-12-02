@@ -27,7 +27,7 @@ public class UserDAO {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
             Connection conn = myFactory.getConnection();
             String query = "insert into user"
-                    + "(userID,Email,userName,password) "
+                    + "(idUser,email,username,password) "
                     + "values (?,?,?,?)";
             PreparedStatement pstmt = conn.prepareStatement(query);
 
@@ -58,7 +58,7 @@ public class UserDAO {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
             Connection conn = myFactory.getConnection();
 
-            String query = "select * from User where username = ? and password = ?";
+            String query = "select * from user where username = ? and password = ?";
             PreparedStatement pstmt = conn.prepareStatement(query);
 
             pstmt.setString(1, User.getUserName());
@@ -68,9 +68,9 @@ public class UserDAO {
             if (rs.next()) {
                 System.out.print("ENTERED");
                 user.setUserID(rs.getInt("idUser"));
+                user.setEmail(rs.getString("email"));
                 user.setUserName(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
-                user.setEmail(rs.getString("email"));
             }
             
             conn.close();
