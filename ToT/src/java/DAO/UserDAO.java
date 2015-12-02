@@ -60,7 +60,7 @@ public class UserDAO {
 
             String query = "select * from User where username = ? and password = ?";
             PreparedStatement pstmt = conn.prepareStatement(query);
-            System.out.println("dao" + User.getUserName());
+
 
             pstmt.setString(1, User.getUserName());
             pstmt.setString(2, User.getPassword());
