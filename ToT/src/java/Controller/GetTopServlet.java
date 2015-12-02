@@ -1,12 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller;
 
+import DAO.CommentsDAO;
+import DAO.FoodDAO;
+import Model.Comments;
+import Model.Food;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author shermainesy
  */
-public class GetTopServelt extends HttpServlet {
+public class GetTopServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,16 +32,33 @@ public class GetTopServelt extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet GetTopServelt</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet GetTopServelt at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            ArrayList<Food> Topfood = new ArrayList<>();
+            ArrayList<Comments> Comments = new ArrayList<>();
+            FoodDAO foodDAO = new FoodDAO();
+            CommentsDAO CommentDAO = new CommentsDAO();
+            
+            Topfood = foodDAO.GetTopFood();
+            
+            //Get Top food id then find its comments then return the comments
+           
+            for(int i = 0; i < Topfood.size(); i++){
+               ArrayList<Comments> temp = new ArrayList<>();
+                temp = CommentDAO.GetTopFoodComments(Topfood.get(i).getFoodID());
+                for(int j=0; j<temp.size();j++){
+                 Comments.add(temp.get(j));
+                }
+            }
+          // Convert your object or list to a JSON string
+		Gson g = new Gson();
+                Gson gs = new Gson();
+		String topFoodJson = g.toJson(Topfood); // try printing this out to see the JSON string of studentList
+		String topComments = g.toJson(Comments);
+		// Send the JSON string to the client who requested it
+		response.getWriter().print(topFoodJson);
+                response.getWriter().printf(topComments);
+
+               // System.out.print(topFoodJson);
+                
         }
     }
 

@@ -8,11 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Enumeration;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.json.JSONException;
-import org.json.JSONObject;
+
  
 public class LoginServlet extends HttpServlet {
  
@@ -48,10 +44,14 @@ public class LoginServlet extends HttpServlet {
         u = g.toJson(user2);
 
         
-        if(!u.isEmpty())
+        if(!u.isEmpty()){
             response.getWriter().print(u);
-        else
+        }
+        else{
             response.getWriter().print("error");
+        }
+        
+        //SESSION
     }
  
     /** 

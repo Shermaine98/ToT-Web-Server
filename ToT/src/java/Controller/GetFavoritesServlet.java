@@ -5,8 +5,12 @@
  */
 package Controller;
 
+import DAO.FavoritesDAO;
+import Model.Favorites;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,16 +35,18 @@ public class GetFavoritesServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet GetFavoritesServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet GetFavoritesServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+          ArrayList<Favorites> FavoritesList= new ArrayList<Favorites>();
+          FavoritesDAO DAO = new FavoritesDAO();
+          int Session =0;
+          FavoritesList = DAO.GetFavorites(Session);
+          Gson g = new Gson();
+               
+		String favoritesJson = g.toJson(FavoritesList); // try printing this out to see the JSON string of studentList
+		
+		// Send the JSON string to the client who requested it
+		response.getWriter().print(favoritesJson);
+
+          
         }
     }
 

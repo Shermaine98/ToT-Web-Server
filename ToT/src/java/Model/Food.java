@@ -71,4 +71,47 @@ public class Food extends Restaurant {
         this.picture = picture;
     }
 
+    /**
+     * @return the foodID
+     */
+    public int getFoodID() {
+        return foodID;
+    }
+
+    /**
+     * @return the foodName
+     */
+    public String getFoodName() {
+        return foodName;
+    }
+
+    /**
+     * @return the foodDescription
+     */
+    public String getFoodDescription() {
+        return foodDescription;
+    }
+
+    /**
+     * @return the price
+     */
+    public double getPrice() {
+        return price;
+    }
+
+    /**
+     * @return the rating
+     */
+    public double getRating() {
+        return rating;
+    }
+
+    /**
+     * @return the picture
+     */
+    public int getPicture() {
+        return picture;
+    }
+
+    
 }
