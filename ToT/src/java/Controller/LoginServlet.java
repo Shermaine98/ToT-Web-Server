@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author vetkin123
+ * @author 
  */
 public class LoginServlet extends HttpServlet {
 
@@ -36,21 +36,19 @@ public class LoginServlet extends HttpServlet {
         User user2 = new User();
         UserDAO DAO = new UserDAO();
         String username = request.getParameter("username");
-       String password = request.getParameter("password");
-      //  System.out.println(username);
-       // System.out.println(password);
+        String password = request.getParameter("password");
+       
+        System.out.println(username);
+        System.out.println(password);
         
         user.setUserName(username);
         user.setPassword(password);
         
         user2 = DAO.authenticate(user);
-       
-        // String userID = "";
         Gson g = new Gson();
-        //userID = g.toJson(userid);
         
         String u = "";
-      //  User usersearch = DAO.getUser(userid);
+      
          u = g.toJson(user2);
 
 

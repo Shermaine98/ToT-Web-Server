@@ -27,7 +27,7 @@ public class UserDAO {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
             Connection conn = myFactory.getConnection();
             String query = "insert into user"
-                    + "(userID,Email,userName,password) "
+                    + "(idUser,Email,userName,password) "
                     + "values (?,?,?,?)";
             PreparedStatement pstmt = conn.prepareStatement(query);
 
