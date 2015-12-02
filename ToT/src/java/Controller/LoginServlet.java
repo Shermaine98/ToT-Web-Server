@@ -33,14 +33,17 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
 
         User user = new User();
+        User user2 = new User();
         UserDAO DAO = new UserDAO();
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        System.out.println(username);
-           System.out.println(password);
+       String password = request.getParameter("password");
+      //  System.out.println(username);
+       // System.out.println(password);
+        
         user.setUserName(username);
         user.setPassword(password);
-        user = DAO.authenticate(user);
+        
+        user2 = DAO.authenticate(user);
        
         // String userID = "";
         Gson g = new Gson();
@@ -48,7 +51,7 @@ public class LoginServlet extends HttpServlet {
         
         String u = "";
       //  User usersearch = DAO.getUser(userid);
-         u = g.toJson(user);
+         u = g.toJson(user2);
 
 
         if(!u.isEmpty()){

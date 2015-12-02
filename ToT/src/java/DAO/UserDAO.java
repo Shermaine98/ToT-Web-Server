@@ -51,9 +51,9 @@ public class UserDAO {
      * @param User
      * @return
      */
-    public User authenticate(Model.User User) {
+    public User authenticate(User User) {
 
-       User user = new User();
+              User user = new User();
         try {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
             Connection conn = myFactory.getConnection();
@@ -61,23 +61,24 @@ public class UserDAO {
             String query = "select * from User where username = ? and password = ?";
             PreparedStatement pstmt = conn.prepareStatement(query);
 
-
             pstmt.setString(1, User.getUserName());
             pstmt.setString(2, User.getPassword());
 
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                user.setUserID(rs.getInt("userID"));
-                user.setUserName(rs.getString("userName"));
+                System.out.print("ENTERED");
+                user.setUserID(rs.getInt("idUser"));
+                user.setUserName(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
-                user.setEmail(rs.getString("Email"));
+                user.setEmail(rs.getString("email"));
             }
+            
             conn.close();
-            return User;
+           
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return user;
     }
 
 }
