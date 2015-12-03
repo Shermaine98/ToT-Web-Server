@@ -33,18 +33,22 @@ public class RegisterServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-         String userName = request.getParameter("userName");
-         String password = request.getParameter("password");
-         String email = request.getParameter("email");
-         
-         User user = new User(email,userName,password);
-         UserDAO userDAO = new UserDAO();
-         
-        boolean value =   userDAO.register(user);
-        
-        // TODO: return true to client else return false to client taost
-         
-         
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String email = request.getParameter("email");
+
+            User user = new User(email, username, password);
+            UserDAO userDAO = new UserDAO();
+            
+            // TODO: return true to client else return false to client taost
+            if (userDAO.checkUsername(username) ){
+                response.getWriter().print("Username Exists");
+            } else if (userDAO.checkEmail(email)) {
+                response.getWriter().print("Email Exists");
+            } else {
+                boolean registered = userDAO.register(user);
+                response.getWriter().print(registered);
+            }
         }
     }
 

@@ -9,6 +9,8 @@ import Model.User;
 import DAO.UserDAO;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +34,8 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+//        response.getWriter().print(InetAddress.getLocalHost().getHostAddress());
+        
         User user = new User();
         User user2 = new User();
         UserDAO DAO = new UserDAO();
