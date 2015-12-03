@@ -75,7 +75,7 @@ public class UserDAO {
      */
     public User authenticate(User User) {
 
-        User user = new User();
+        User user = null;
         try {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
             Connection conn = myFactory.getConnection();
@@ -88,15 +88,14 @@ public class UserDAO {
 
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                System.out.print("ENTERED");
+                user = new User();
                 user.setUserID(rs.getInt("idUser"));
                 user.setEmail(rs.getString("email"));
                 user.setUserName(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
             }
-
+            System.out.println(user);
             conn.close();
-
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
