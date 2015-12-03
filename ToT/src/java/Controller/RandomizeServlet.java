@@ -1,7 +1,12 @@
 package Controller;
 
+import DAO.FoodDAO;
+import Model.Food;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Random;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,16 +31,32 @@ public class RandomizeServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet RandomizeServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet RandomizeServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            int price = Integer.parseInt(request.getParameter("price"));
+
+            //Pwede dito ilagay, if filter by location, price or both for if statements
+            String filter = request.getParameter("filterBy");
+            Random generator = new Random();
+            Food randomized = new Food();
+            FoodDAO dao = new FoodDAO();
+            ArrayList<Food> list = new ArrayList<>();
+
+            if (filter.equalsIgnoreCase("None")) {
+                list = dao.GetAll();
+            } else if (filter.equalsIgnoreCase("Price")) {
+                list = dao.GetAllByPrice(price);
+            } else if (filter.equalsIgnoreCase("Location")) {
+                list = dao.GetAllByLocation();
+            } else if (filter.equalsIgnoreCase("Both")) {
+                list = dao.GetAllByBoth(price);
+            }
+
+           int index = generator.nextInt(list.size());
+           randomized = list.get(index);
+           
+           Gson g = new Gson();
+           String randomized2 = g.toJson(randomized);
+           
+           response.getWriter().print(randomized2);
         }
     }
 
