@@ -22,7 +22,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>GetTopServelt</servlet-name>
-        <url-pattern>/GetTopServelt</url-pattern>
+        <url-pattern>/GetTopServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GetFavoritesServlet</servlet-name>
