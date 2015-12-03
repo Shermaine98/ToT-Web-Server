@@ -8,10 +8,15 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -27,38 +32,67 @@ public class GetTopServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws org.json.JSONException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, JSONException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             ArrayList<Food> Topfood = new ArrayList<>();
             ArrayList<Comments> Comments = new ArrayList<>();
             FoodDAO foodDAO = new FoodDAO();
             CommentsDAO CommentDAO = new CommentsDAO();
-            
+
             Topfood = foodDAO.GetTopFood();
-            
+
             //Get Top food id then find its comments then return the comments
-           
-            for(int i = 0; i < Topfood.size(); i++){
-               ArrayList<Comments> temp = new ArrayList<>();
+            JSONArray arrayFood = new JSONArray();
+            JSONArray arrayComment = new JSONArray();
+
+            for (int i = 0; i < Topfood.size(); i++) {
+                JSONObject obj = new JSONObject();
+                JSONObject mainObj = new JSONObject();
+                obj.put("foodID", Topfood.get(i).getFoodID());
+                obj.put("foodName", Topfood.get(i).getFoodName());
+                obj.put("foodDescription", Topfood.get(i).getFoodDescription());
+                obj.put("price", Topfood.get(i).getPrice());
+                obj.put("rating", Topfood.get(i).getRating());
+                
+                mainObj.put("Food", obj);
+                
+                arrayFood.put(mainObj);
+                //response.getWriter().println(arrayFood.get(i));
+                ArrayList<Comments> temp = new ArrayList<>();
                 temp = CommentDAO.GetTopFoodComments(Topfood.get(i).getFoodID());
-                for(int j=0; j<temp.size();j++){
-                 Comments.add(temp.get(j));
+                for (int j = 0; j < temp.size(); j++) {
+                    JSONObject comment = new JSONObject();
+                    JSONObject mainObjC = new JSONObject();
+                    comment.put("CommentsID", temp.get(j).getCommentsID());
+                    comment.put("comments", temp.get(j).getComments());
+                    comment.put("IDUser", temp.get(j).getIDUser());
+                    comment.put("foodID", Topfood.get(i).getFoodID());
+                   
+                      mainObjC.put("Comment", comment);
+                    arrayComment.put(mainObjC);
+                 //   response.getWriter().print(arrayComment.get(j));
+
                 }
             }
-          // Convert your object or list to a JSON string
-		Gson g = new Gson();
-                Gson gs = new Gson();
-		String topFoodJson = g.toJson(Topfood); // try printing this out to see the JSON string of studentList
-		String topComments = g.toJson(Comments);
-		// Send the JSON string to the client who requested it
-		response.getWriter().print(topFoodJson);
-                response.getWriter().printf(topComments);
+                    // Convert your object or list to a JSON string
 
-               // System.out.print(topFoodJson);
-                
+            Gson g = new Gson();
+            Gson gs = new Gson();
+            for(int i=0; i <arrayFood.length();i++ ){
+                String topFoodJson = g.toJson(arrayFood.get(i).toString());
+                 response.getWriter().print(arrayFood.get(i).toString());
+            }
+            
+             for(int i=0; i <arrayComment.length();i++ ){
+             String topComments = gs.toJson(arrayComment);
+            response.getWriter().printf(topComments);
+            
+            }
+         
         }
     }
 
@@ -74,7 +108,11 @@ public class GetTopServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (JSONException ex) {
+            Logger.getLogger(GetTopServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -88,7 +126,11 @@ public class GetTopServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (JSONException ex) {
+            Logger.getLogger(GetTopServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

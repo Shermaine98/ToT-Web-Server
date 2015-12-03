@@ -31,7 +31,6 @@ public class CommentsDAO {
 
             while (rs.next()) {
                 Comments temp = new Comments();
-                temp.setFoodID(rs.getInt("FoodID"));
                 temp.setCommentsID(rs.getInt("CommentID"));
                 temp.setComments(rs.getString("Comments"));
                 temp.setIDUser(rs.getString("userName"));

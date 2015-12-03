@@ -9,8 +9,8 @@ public class Restaurant {
 
     private String restaurantName;
     private String address;
-    private double longitude;
-    private double latitude;
+    public double longitude;
+    public double latitude;
 
     public Restaurant(String restaurantName, String address, double longitude, double latitude) {
         this.restaurantName = restaurantName;

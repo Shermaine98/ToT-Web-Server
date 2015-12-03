@@ -5,7 +5,7 @@ package Model;
  * @author shermaine sy
  * @author geraldine atayan
  */
-public class Food extends Restaurant {
+public class Food   {
 
     private int foodID;
     private String foodName;
@@ -13,17 +13,12 @@ public class Food extends Restaurant {
     private double price;
     private double rating;
     private int picture;
+    private String restaurantName;
+    private String address;
+    public double longitude;
+    public double latitude;
 
-    public Food(int foodID, String foodName, String foodDescription, double price, double rating, int picture, String restaurantName, String address, double longitude, double latitude) {
-        super(restaurantName, address, longitude, latitude);
-        this.foodID = foodID;
-        this.foodName = foodName;
-        this.foodDescription = foodDescription;
-        this.price = price;
-        this.rating = rating;
-        this.picture = picture;
-    }
-
+    
     
     public Food() {
 
@@ -113,5 +108,60 @@ public class Food extends Restaurant {
         return picture;
     }
 
-    
+    /**
+     * @return the restaurantName
+     */
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    /**
+     * @param restaurantName the restaurantName to set
+     */
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
+
+    /**
+     * @return the address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    /**
+     * @return the longitude
+     */
+    public double getLongitude() {
+        return longitude;
+    }
+
+    /**
+     * @param longitude the longitude to set
+     */
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    /**
+     * @return the latitude
+     */
+    public double getLatitude() {
+        return latitude;
+    }
+
+    /**
+     * @param latitude the latitude to set
+     */
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
 }
