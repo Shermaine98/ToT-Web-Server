@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import DAO.FavoritesDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -31,16 +32,14 @@ public class RemoveFavorite extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet RemoveFavorite</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet RemoveFavorite at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            int foodID = Integer.parseInt(request.getParameter("foodID"));
+            int userID = Integer.parseInt(request.getParameter("userID"));
+            
+            FavoritesDAO dao = new FavoritesDAO();
+            boolean x = dao.removeFavorite(userID, foodID);
+            
+            response.getWriter().print(x);
+            
         }
     }
 
