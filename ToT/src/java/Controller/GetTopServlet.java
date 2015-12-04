@@ -56,6 +56,7 @@ public class GetTopServlet extends HttpServlet {
                 obj.put("foodDescription", Topfood.get(i).getFoodDescription());
                 obj.put("price", Topfood.get(i).getPrice());
                 obj.put("rating", Topfood.get(i).getRating());
+                obj.put("picture", Topfood.get(i).getPicture());
                 
                 arrayFood.put(obj);
                 ArrayList<Comments> temp = new ArrayList<>();
