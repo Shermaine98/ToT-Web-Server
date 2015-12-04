@@ -43,10 +43,8 @@ public class GetFavoritesServlet extends HttpServlet {
             ArrayList<Favorites> FavoritesList = new ArrayList<Favorites>();
 
             FavoritesDAO dao = new FavoritesDAO();
-            String paraUserId = request.getParameter("userID");
-            int session = 0;
-            session = Integer.parseInt(paraUserId);
-            FavoritesList = dao.GetFavorites(session);
+            int paraUserId = Integer.parseInt(request.getParameter("userID"));
+            FavoritesList = dao.GetFavorites(paraUserId);
 
             JSONArray favorites = new JSONArray();
 
