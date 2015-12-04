@@ -31,10 +31,11 @@ public class RandomizeServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            int price = Integer.parseInt(request.getParameter("price"));
+            int price = 30;
 
             //Pwede dito ilagay, if filter by location, price or both for if statements
-            String filter = request.getParameter("filterBy");
+           // String filter = request.getParameter("price");
+           String filter = "price";
             Random generator = new Random();
             Food randomized = new Food();
             FoodDAO dao = new FoodDAO();
