@@ -7,7 +7,6 @@ package Controller;
 
 import DAO.FavoritesDAO;
 import Model.Favorites;
-import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -41,17 +40,17 @@ public class GetFavoritesServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             ArrayList<Favorites> FavoritesList = new ArrayList<Favorites>();
-            FavoritesDAO DAO = new FavoritesDAO();
-            int userSession = Integer.parseInt(request.getParameter("userID"));
-            FavoritesList = DAO.GetFavorites(userSession);
+
+            FavoritesDAO dao = new FavoritesDAO();
+            String paraUserId = request.getParameter("userID");
+            int session = 0;
+            session = Integer.parseInt(paraUserId);
+            FavoritesList = dao.GetFavorites(session);
 
             JSONArray favorites = new JSONArray();
 
             for (int i = 0; i < FavoritesList.size(); i++) {
                 JSONObject obj = new JSONObject();
-                JSONObject mainObj = new JSONObject();
-                obj.put("username", FavoritesList.get(i).getUserName());
-                obj.put("userID", FavoritesList.get(i).getUseriD());
                 obj.put("foodID", FavoritesList.get(i).getFoodID());
                 obj.put("foodName", FavoritesList.get(i).getFoodName());
                 obj.put("foodDescription", FavoritesList.get(i).getFoodDescription());
@@ -59,16 +58,13 @@ public class GetFavoritesServlet extends HttpServlet {
                 obj.put("rating", FavoritesList.get(i).getRating());
                 obj.put("picture", FavoritesList.get(i).getPicture());
 
-                mainObj.put("Favorites", obj);
-                favorites.put(mainObj);
+                favorites.put(obj);
             }
 
-            Gson g = new Gson();
-            for (int i = 0; i < favorites.length(); i++) {
-                String topFoodJson = g.toJson(favorites.get(i).toString());
-//                response.getWriter().print(topFoodJson);
-                response.getWriter().print(favorites.get(i).toString());
-            }
+            JSONObject main = new JSONObject();
+            main.put("Favorites", favorites);
+
+            response.getWriter().print(main.toString());
 
         }
     }
