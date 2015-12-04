@@ -72,13 +72,10 @@ public class GetTopServlet extends HttpServlet {
             }
             
             JSONObject mainObj = new JSONObject();
-            JSONObject mainObjC = new JSONObject();
+            
             mainObj.put("Food", arrayFood);
             mainObj.put("Comments", arrayComment);
            
-        // Convert your object or list to a JSON string
-           
-          
             response.getWriter().print(mainObj.toString());
             
          
