@@ -31,33 +31,34 @@ public class RandomizeServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            int price = 30;
 
-            //Pwede dito ilagay, if filter by location, price or both for if statements
-           // String filter = request.getParameter("price");
-           String filter = "price";
+            String filter = request.getParameter("filterBy");
+               
             Random generator = new Random();
             Food randomized = new Food();
             FoodDAO dao = new FoodDAO();
             ArrayList<Food> list = new ArrayList<>();
-
             if (filter.equalsIgnoreCase("None")) {
                 list = dao.GetAll();
+                int index = generator.nextInt(list.size());
+                randomized = list.get(index);
             } else if (filter.equalsIgnoreCase("Price")) {
+                int price = Integer.parseInt(request.getParameter("price"));
                 list = dao.GetAllByPrice(price);
+                 int index = generator.nextInt(list.size());
+                randomized = list.get(index);
             } else if (filter.equalsIgnoreCase("Location")) {
                 list = dao.GetAllByLocation();
             } else if (filter.equalsIgnoreCase("Both")) {
+                int price = Integer.parseInt(request.getParameter("price"));
                 list = dao.GetAllByBoth(price);
+                
             }
-
-           int index = generator.nextInt(list.size());
-           randomized = list.get(index);
-           
-           Gson g = new Gson();
-           String randomized2 = g.toJson(randomized);
-           
-           response.getWriter().print(randomized2);
+            
+            
+             Gson g = new Gson();
+             String randomized2 = g.toJson(randomized);
+             response.getWriter().print(randomized2);
         }
     }
 
