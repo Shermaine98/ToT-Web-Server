@@ -66,6 +66,7 @@ public class GetFavoritesServlet extends HttpServlet {
             Gson g = new Gson();
             for (int i = 0; i < favorites.length(); i++) {
                 String topFoodJson = g.toJson(favorites.get(i).toString());
+                //response.getWriter().print(topFoodJson);
                 response.getWriter().print(favorites.get(i).toString());
             }
 
