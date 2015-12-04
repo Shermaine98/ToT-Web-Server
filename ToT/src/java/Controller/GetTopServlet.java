@@ -6,7 +6,6 @@ import Model.Comments;
 import Model.Food;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,9 +13,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 
 /**
  *
@@ -49,66 +48,43 @@ public class GetTopServlet extends HttpServlet {
             JSONArray arrayFood = new JSONArray();
             JSONArray arrayComment = new JSONArray();
 
-              JSONArray users = new JSONArray();
-              JSONObject mainObj = new JSONObject();
+              
             for (int i = 0; i < Topfood.size(); i++) {
                 JSONObject obj = new JSONObject();
-
                 obj.put("foodID", Topfood.get(i).getFoodID());
                 obj.put("foodName", Topfood.get(i).getFoodName());
                 obj.put("foodDescription", Topfood.get(i).getFoodDescription());
                 obj.put("price", Topfood.get(i).getPrice());
                 obj.put("rating", Topfood.get(i).getRating());
-                /*Adding header to the JSON*/
-                //DAAPAT ONE TIME LNG ITO GINAGAWA
-                mainObj.put("Food", obj);
-                /*Adding to Json Array*/
-                arrayFood.add(mainObj);
+                
+                arrayFood.put(obj);
                 ArrayList<Comments> temp = new ArrayList<>();
                 temp = CommentDAO.GetTopFoodComments(Topfood.get(i).getFoodID());
                 for (int j = 0; j < temp.size(); j++) {
                     JSONObject comment = new JSONObject();
-                    JSONObject mainObjC = new JSONObject();
+                    
                     comment.put("CommentsID", temp.get(j).getCommentsID());
                     comment.put("comments", temp.get(j).getComments());
                     comment.put("IDUser", temp.get(j).getIDUser());
                     comment.put("foodID", Topfood.get(i).getFoodID());
-                    mainObjC.put("Comments", comment);
-                    arrayComment.add(mainObjC);
+                    arrayComment.put(comment);
                 
 
                 }
             }
             
-            
-            
-            
-             /*Converting Json Array to String*/
-             StringWriter toStringF = new StringWriter();
-             arrayFood.writeJSONString(toStringF);
-             /*Printing Json Array - String*/
-             response.getWriter().println(toStringF.toString());
-             
-             /*Converting Json Array to String*/
-             StringWriter toStringC = new StringWriter();
-             arrayComment.writeJSONString(toStringC);
-             /*Printing Json Array - String*/
-             response.getWriter().println(toStringC.toString());
+            JSONObject mainObj = new JSONObject();
+            JSONObject mainObjC = new JSONObject();
+            mainObj.put("Food", arrayFood);
+            mainObjC.put("Comments", arrayComment);
            
         // Convert your object or list to a JSON string
-           /*
-            Gson g = new Gson();
-            Gson gs = new Gson();
-            for(int i=0; i <arrayFood.length();i++ ){
-                String topFoodJson = g.toJson(arrayFood.get(i).toString());
-                 response.getWriter().print(arrayFood.get(i).toString());
-            }
+           
+          
+            response.getWriter().printf(mainObj.toString());
+            response.getWriter().printf(mainObjC.toString());
             
-             for(int i=0; i <arrayComment.length();i++ ){
-             String topComments = gs.toJson(arrayComment);
-            response.getWriter().printf(topComments);
-            }
-         */
+         
             
         }
     }
