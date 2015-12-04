@@ -32,13 +32,14 @@ public class FavoritesDAO {
             Connection conn = myFactory.getConnection();
 
             PreparedStatement pstmt = conn.prepareStatement(""
-                    + "SELECT F.FoodID, F.FoodName, F.FoodDescription, F.Picture, U.username, U.idUser "
+                    + "SELECT F.FoodID, F.FoodName, F.FoodDescription, F.Picture, U.username, U.idUser, F.price "
                     + "FROM Food F JOIN FAVORITE FV ON F.FoodID = FV.FoodID JOIN USER U ON FV.idUser = U.idUser\n"
                     + "WHERE FV.idUser = ?;");
             pstmt.setInt(1, UseriD);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Favorites temp = new Favorites();
+                temp.setPrice(rs.getDouble("price"));
                 temp.setUseriD(rs.getInt("idUser"));
                 temp.setUserName(rs.getString("userName"));
                 temp.setFoodID(rs.getInt("foodID"));
