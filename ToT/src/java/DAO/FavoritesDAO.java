@@ -71,11 +71,8 @@ public class FavoritesDAO {
                     + "delete from favorite where idUser=? and FOODID=?");
             pstmt.setInt(1, userID);
             pstmt.setInt(2, foodID);
-            ResultSet rs = pstmt.executeQuery();
-            
-            while (rs.next()) {
-                result = true;
-            }
+            int count = pstmt.executeUpdate();
+            result = (count > 0);
 
             pstmt.close();
             conn.close();
