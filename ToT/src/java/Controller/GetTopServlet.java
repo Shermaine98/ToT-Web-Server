@@ -60,6 +60,7 @@ public class GetTopServlet extends HttpServlet {
                 arrayFood.put(obj);
                 ArrayList<Comments> temp = new ArrayList<>();
                 temp = CommentDAO.GetTopFoodComments(Topfood.get(i).getFoodID());
+ 
                 for (int j = 0; j < temp.size(); j++) {
                     JSONObject comment = new JSONObject();
                     comment.put("CommentsID", temp.get(j).getCommentsID());
@@ -73,13 +74,12 @@ public class GetTopServlet extends HttpServlet {
             JSONObject mainObj = new JSONObject();
             JSONObject mainObjC = new JSONObject();
             mainObj.put("Food", arrayFood);
-            mainObjC.put("Comments", arrayComment);
+            mainObj.put("Comments", arrayComment);
            
         // Convert your object or list to a JSON string
            
           
-            response.getWriter().printf(mainObj.toString());
-            response.getWriter().printf(mainObjC.toString());
+            response.getWriter().print(mainObj.toString());
             
          
             

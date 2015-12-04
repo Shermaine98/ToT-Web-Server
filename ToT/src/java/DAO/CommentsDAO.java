@@ -24,7 +24,8 @@ public class CommentsDAO {
             Connection conn = myFactory.getConnection();
            
             PreparedStatement pstmt = conn.prepareStatement(""
-                    + "SELECT C.CommentID, C.FoodID, C.Comments, U.username FROM COMMENTS C JOIN USER U ON C.idUser = U.idUser\n"
+                    + "SELECT C.CommentID, C.FoodID, C.Comments, U.username "
+                    + "FROM COMMENTS C JOIN USER U ON C.idUser = U.idUser\n"
                     + "WHERE FOODID = ?;");
             pstmt.setInt(1, FoodID);
             ResultSet rs = pstmt.executeQuery();
