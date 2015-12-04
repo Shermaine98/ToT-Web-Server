@@ -42,8 +42,8 @@ public class GetFavoritesServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             ArrayList<Favorites> FavoritesList = new ArrayList<Favorites>();
             FavoritesDAO DAO = new FavoritesDAO();
-            int Session = Integer.parseInt(request.getParameter("userId"));
-            FavoritesList = DAO.GetFavorites(Session);
+            int userSession = Integer.parseInt(request.getParameter("userID"));
+            FavoritesList = DAO.GetFavorites(userSession);
 
             JSONArray favorites = new JSONArray();
 
