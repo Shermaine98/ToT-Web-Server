@@ -42,7 +42,7 @@ public class GetFavoritesServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             ArrayList<Favorites> FavoritesList = new ArrayList<Favorites>();
             FavoritesDAO DAO = new FavoritesDAO();
-            int Session = 0;
+            int Session = Integer.parseInt(request.getParameter("userId"));
             FavoritesList = DAO.GetFavorites(Session);
 
             JSONArray favorites = new JSONArray();
@@ -66,8 +66,8 @@ public class GetFavoritesServlet extends HttpServlet {
             Gson g = new Gson();
             for (int i = 0; i < favorites.length(); i++) {
                 String topFoodJson = g.toJson(favorites.get(i).toString());
-                //response.getWriter().print(topFoodJson);
-                response.getWriter().print(favorites.get(i).toString());
+                response.getWriter().print(topFoodJson);
+//                response.getWriter().print(favorites.get(i).toString());
             }
 
         }
