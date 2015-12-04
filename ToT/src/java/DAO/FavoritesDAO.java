@@ -31,7 +31,9 @@ public class FavoritesDAO {
             ArrayList<Favorites> Favorites = new ArrayList<>();
             Connection conn = myFactory.getConnection();
 
-            PreparedStatement pstmt = conn.prepareStatement("SELECT F.FoodID, F.FoodName, F.FoodDescription, F.Picture, U.username, U.idUser FROM Food F JOIN FAVORITE FV ON F.FoodID = FV.FoodID JOIN USER U ON FV.idUser = U.idUser\n"
+            PreparedStatement pstmt = conn.prepareStatement(""
+                    + "SELECT F.FoodID, F.FoodName, F.FoodDescription, F.Picture, U.username, U.idUser "
+                    + "FROM Food F JOIN FAVORITE FV ON F.FoodID = FV.FoodID JOIN USER U ON FV.idUser = U.idUser\n"
                     + "WHERE FV.idUser = ?;");
             pstmt.setInt(1, UseriD);
             ResultSet rs = pstmt.executeQuery();

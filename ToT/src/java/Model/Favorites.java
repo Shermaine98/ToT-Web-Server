@@ -5,19 +5,17 @@ package Model;
  * @author shermaine sy
  * @author geraldine atayan
  */
-public class Favorites  {
+public class Favorites {
 
-  
-  private String UserName;
-  private int UseriD;
-   private int foodID;
+    private String UserName;
+    private int UseriD;
+    private int foodID;
     private String foodName;
     private String foodDescription;
     private double price;
     private double rating;
     private int picture;
 
-   
     /**
      * @return the UserName
      */
@@ -129,9 +127,5 @@ public class Favorites  {
     public void setPicture(int picture) {
         this.picture = picture;
     }
-
-   
-
-    
 
 }
