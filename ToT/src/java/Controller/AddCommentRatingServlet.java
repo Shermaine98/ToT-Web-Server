@@ -5,6 +5,9 @@
  */
 package Controller;
 
+import DAO.CommentsDAO;
+import DAO.FavoritesDAO;
+import DAO.FoodDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -16,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Shermaine Sy
  * @author Geraldine Atayan
- * 
+ *
  */
 public class AddCommentRatingServlet extends HttpServlet {
 
@@ -33,16 +36,34 @@ public class AddCommentRatingServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AddCommentRatingServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AddCommentRatingServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+           double newRating = Double.parseDouble(request.getParameter("rating"));
+           int userID = Integer.parseInt(request.getParameter("userID"));
+           int FoodID = Integer.parseInt(request.getParameter("foodID"));
+           String comment = request.getParameter("Comment");
+           double currRating;
+           CommentsDAO CommentsDAO = new CommentsDAO();
+           FoodDAO FoodDAO = new FoodDAO();
+           
+            if (comment.equalsIgnoreCase("null%") && newRating == 0.0) {
+                response.getWriter().print(false);
+            } else if (!comment.equalsIgnoreCase("null%") && newRating != 0.0) {
+                currRating = FoodDAO.getRating(FoodID);
+                //(5*252 + 4*124 + 3*40 + 2*29 + 1*33)
+                double AddRating =  (currRating + newRating) / 2;
+                boolean result = FoodDAO.UpdateRating(AddRating, FoodID);
+                boolean result2 = CommentsDAO.addComments(userID, FoodID, comment);
+                if (result == true && result2 == true) {
+                    response.getWriter().print(true);
+                }
+            } else if (newRating != 0.0) {
+                currRating = FoodDAO.getRating(FoodID);
+                double AddRating = (currRating + newRating) / 2;
+                boolean result = FoodDAO.UpdateRating(AddRating, FoodID);
+                response.getWriter().print(result);
+            } else if (!comment.equalsIgnoreCase("null%")) {
+                boolean result2 = CommentsDAO.addComments(userID, FoodID, comment);
+                response.getWriter().print(result2);
+            }
         }
     }
 

@@ -103,7 +103,7 @@ public class FavoritesDAO {
         try {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
             Connection conn = myFactory.getConnection();
-            String query = "insert into favorite idUser,foodID) values (?,?)";
+            String query = "insert into favorite (idUser,foodID) values (?,?)";
             PreparedStatement pstmt = conn.prepareStatement(query);
 
             pstmt.setInt(1, userID);
@@ -133,12 +133,10 @@ public class FavoritesDAO {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
             Connection conn = myFactory.getConnection();
 
-            String query = "SELECT EXISTS(SELECT 1 FROM favorite Where userID = ? AND foodID = ?);";
+            String query = "SELECT EXISTS(SELECT 1 FROM favorite Where idUser = ? AND foodID = ?);";
             PreparedStatement pstmt = conn.prepareStatement(query);
-
             pstmt.setInt(1, userID);
             pstmt.setInt(2, foodID);
-
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 exists = rs.getBoolean(1);

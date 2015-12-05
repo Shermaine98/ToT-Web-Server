@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import DAO.HistoryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Shermaine Sy
  * @author Geraldine Atayan
- * 
+ *
  */
 public class AddHistoryServlet extends HttpServlet {
 
@@ -34,15 +35,17 @@ public class AddHistoryServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AddHistoryServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AddHistoryServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+         int userID = Integer.parseInt(request.getParameter("userID"));
+        int foodID = Integer.parseInt(request.getParameter("foodID"));
+
+            HistoryDAO history = new HistoryDAO();
+            boolean result = history.checkHistory(userID,foodID );
+            if (result == false) {
+                boolean result2 = history.addHistory(userID, foodID);
+                response.getWriter().print(result2);
+            } else {
+                response.getWriter().print(result);
+            }
         }
     }
 

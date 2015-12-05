@@ -73,7 +73,7 @@ public class FoodDAO {
         try {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
             Connection conn = myFactory.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Food ORDER BY FoodID");
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Food F JOIN RESTAURANTS R on F.RestaurantName = R.RestaurantName ORDER BY FoodID ");
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -85,6 +85,8 @@ public class FoodDAO {
                 temp.setPrice(rs.getDouble("Price"));
                 temp.setRating(rs.getInt("Rating"));
                 temp.setPicture(rs.getInt("Picture"));
+                temp.setAddress(rs.getString("Address"));
+                temp.setRestaurantName(rs.getString("RestaurantName"));
                 food.add(temp);
             }
 
@@ -217,6 +219,50 @@ public class FoodDAO {
             Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    
+     public double getRating(int foodID) {
+        double rating = 0;
+        try {
+            DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
+            Connection conn = myFactory.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("SELECT Rating FROM FOOD WHERE FOODID = ?");
+            pstmt.setDouble(1, foodID);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                rating = rs.getDouble("Rating");
+            }
+            pstmt.close();
+            conn.close();
+            return rating;
+        } catch (SQLException ex) {
+            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rating;
+    }
+     
+      public boolean UpdateRating(double newRating, int FOODID) {
+       boolean result =false;
+          try {
+            DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
+            Connection conn = myFactory.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("Update Food SET Rating = ? WHERE FOODID = ? ");
+            pstmt.setDouble(1, newRating);
+             pstmt.setInt(2, FOODID);
+            int rs = pstmt.executeUpdate();
+
+            while (rs > 0) {
+                result = true;
+            }
+            pstmt.close();
+            conn.close();
+              return result;
+        } catch (SQLException ex) {
+            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
     }
     
 }

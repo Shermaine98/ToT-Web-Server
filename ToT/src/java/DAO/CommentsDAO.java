@@ -48,4 +48,53 @@ public class CommentsDAO {
         }
         return null;
     }
+    
+     public boolean addComments(int userID, int foodID, String Comments) {
+        try {
+            DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
+            Connection conn = myFactory.getConnection();
+            String query = "insert into comments (commentID,FoodID,idUser,Comments)"
+                    + " values (?,?,?,?)";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            int last = getCommentsLastNumber();
+            pstmt.setInt(1, last);
+            pstmt.setInt(2, foodID);
+             pstmt.setInt(3, userID);
+            pstmt.setString(4, Comments);
+            int rows = pstmt.executeUpdate();
+            conn.close();
+            return rows == 1;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+     
+      /**
+     * getHistoryLastNumber
+     *
+     * @return
+     * @throws SQLException
+     */
+    public Integer getCommentsLastNumber() throws SQLException {
+        DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
+        Connection conn = myFactory.getConnection();
+        Integer i = 0;
+        String query = "SELECT MAX(commentID) from Comments";
+        PreparedStatement ps = conn.prepareStatement(query);
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            i = rs.getInt("MAX(commentID)");
+        }
+        if (i == 0) {
+            i = 0;
+        } else {
+            i += 1;
+        }
+        conn.close();
+        rs.close();
+        return i;
+    }
+
 }
