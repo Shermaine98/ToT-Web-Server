@@ -5,12 +5,20 @@
  */
 package Controller;
 
+import DAO.HistoryDAO;
+import Model.Food;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -28,19 +36,35 @@ public class GetHistory extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, JSONException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet GetHistory</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet GetHistory at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            ArrayList<Food> history = new ArrayList<Food>();
+            
+            HistoryDAO dao = new HistoryDAO();
+            int userID = Integer.parseInt(request.getParameter("userID"));
+            history = dao.GetHistory(userID);
+            
+            JSONArray jsonHistory = new JSONArray();
+            
+            for(int i = 0; i< history.size(); i++){
+                JSONObject obj = new JSONObject();
+                obj.put("foodID", history.get(i).getFoodID());
+                obj.put("foodName", history.get(i).getFoodName());
+                obj.put("foodDescription", history.get(i).getFoodDescription());
+                obj.put("price", history.get(i).getPrice());
+                obj.put("rating", history.get(i).getRating());
+                obj.put("picture", history.get(i).getPicture());
+                obj.put("RestaurantName", history.get(i).getRestaurantName());
+                
+                jsonHistory.put(obj);
+            }
+            
+            JSONObject main = new JSONObject();
+            main.put("History", jsonHistory);
+
+            response.getWriter().print(main.toString());
+            
         }
     }
 
@@ -56,7 +80,11 @@ public class GetHistory extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (JSONException ex) {
+            Logger.getLogger(GetHistory.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -70,7 +98,11 @@ public class GetHistory extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (JSONException ex) {
+            Logger.getLogger(GetHistory.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
