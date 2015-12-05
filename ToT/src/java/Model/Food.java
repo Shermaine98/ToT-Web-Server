@@ -15,8 +15,8 @@ public class Food   {
     private int picture;
     private String restaurantName;
     private String address;
-    public float longitude;
-    public float latitude;
+    public double longitude;
+    public double latitude;
 
     
     
@@ -139,28 +139,28 @@ public class Food   {
     /**
      * @return the longitude
      */
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
     /**
      * @param longitude the longitude to set
      */
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
     /**
      * @return the latitude
      */
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
     /**
      * @param latitude the latitude to set
      */
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 

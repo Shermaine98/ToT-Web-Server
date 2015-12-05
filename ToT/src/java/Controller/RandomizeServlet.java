@@ -50,16 +50,19 @@ public class RandomizeServlet extends HttpServlet {
                 result = list.get(index);
             } else if (filter.equalsIgnoreCase("Location")) {
                 float longtitidue = Float.parseFloat(request.getParameter("longitude"));
-                float latitude = Float.parseFloat(request.getParameter("latitude"));
-                float distance = Float.parseFloat(request.getParameter("distance"));
-                result = calucation.getNearest(latitude, longtitidue, distance);
+                double latitude = Double.parseDouble(request.getParameter("latitude"));
+                double distance = Double.parseDouble(request.getParameter("distance"));
+                 System.out.print(longtitidue+ " " + latitude + " " + distance);
+                result = calucation.getFilteredLocation(latitude, longtitidue, distance);
+                System.out.print(result);
             } else if (filter.equalsIgnoreCase("Both")) {
                 double price = Double.parseDouble(request.getParameter("price"));
-                float longtitidue = Float.parseFloat(request.getParameter("longitude"));
-                float latitude = Float.parseFloat(request.getParameter("latitude"));
-                float distance = Float.parseFloat(request.getParameter("distance"));
-                result = calucation.getBoth(latitude, longtitidue, distance, price);
-
+                double longtitidue = Double.parseDouble(request.getParameter("longitude"));
+                double latitude = Double.parseDouble(request.getParameter("latitude"));
+                double distance = Double.parseDouble(request.getParameter("distance"));
+                result = calucation.getFilteredBoth(latitude, longtitidue, distance, price);
+                System.out.print(longtitidue+ " " + latitude + " " + distance + "" + price);
+                System.out.print(result.getFoodName());
             }
 
              Gson g = new Gson();

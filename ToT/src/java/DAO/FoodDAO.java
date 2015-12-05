@@ -145,10 +145,10 @@ public class FoodDAO {
         try {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
             Connection conn = myFactory.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("SELECT"
-                    + "f.foodId, R.restaurantName, F.foodName, F.foodDescription, "
+            PreparedStatement pstmt = conn.prepareStatement("SELECT "
+                    + "F.foodId, R.restaurantName, F.foodName, F.foodDescription, "
                     + "F.price, F.Rating, F.picture, R.Address, R.longitude, R.latitude "
-                    + "FROM Food F JOIN RESTAURANTS R on F.RestaurantName = R.RestaurantName");
+                    + "FROM Food F JOIN RESTAURANTS R on F.RestaurantName = R.RestaurantName; ");
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -187,11 +187,11 @@ public class FoodDAO {
         try {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
             Connection conn = myFactory.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("SELECT"
-                    + "f.foodId, R.restaurantName, F.foodName, F.foodDescription, "
+            PreparedStatement pstmt = conn.prepareStatement("SELECT "
+                    + "F.foodId, R.restaurantName, F.foodName, F.foodDescription, "
                     + "F.price, F.Rating, F.picture, R.Address, R.longitude, R.latitude "
                     + "FROM Food F JOIN RESTAURANTS R on F.RestaurantName = R.RestaurantName "
-                    + "WHERE Price <= ? ");
+                    + "WHERE F.price <= ? ;");
             pstmt.setDouble(1, price);
             ResultSet rs = pstmt.executeQuery();
 
@@ -205,8 +205,55 @@ public class FoodDAO {
                 temp.setRating(rs.getInt("Rating"));
                 temp.setPicture(rs.getInt("Picture"));
                 temp.setAddress(rs.getString("address"));
-                temp.setLongitude(rs.getFloat("longitude"));
-                temp.setLatitude(rs.getFloat("latitude"));
+                temp.setLongitude(rs.getDouble("longitude"));
+                temp.setLatitude(rs.getDouble("latitude"));
+                food.add(temp);
+            }
+
+            pstmt.close();
+            conn.close();
+            return food;
+        } catch (SQLException ex) {
+            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    
+    
+    
+    /**
+     * Get food by price and location
+     * @param price
+     * @return 
+     */
+    public ArrayList<Food> GetNereastBoth(double price) {
+
+        ArrayList<Food> food = new ArrayList<>();
+
+        try {
+            DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
+            Connection conn = myFactory.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("SELECT"
+                    + "f.foodId, R.restaurantName, F.foodName, F.foodDescription, "
+                    + "F.price, F.Rating, F.picture, R.Address, R.longitude, R.latitude "
+                    + "FROM Food F JOIN RESTAURANTS R on F.RestaurantName = R.RestaurantName "
+                    + "WHERE F.price <= ? ");
+            pstmt.setDouble(1, price);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Food temp = new Food();
+                temp.setFoodID(rs.getInt("FoodID"));
+                temp.setRestaurantName(rs.getString("RestaurantName"));
+                temp.setFoodName(rs.getString("FoodName"));
+                temp.setFoodDescription(rs.getString("FoodDescription"));
+                temp.setPrice(rs.getDouble("Price"));
+                temp.setRating(rs.getInt("Rating"));
+                temp.setPicture(rs.getInt("Picture"));
+                temp.setAddress(rs.getString("address"));
+                temp.setLongitude(rs.getDouble("longitude"));
+                temp.setLatitude(rs.getDouble("latitude"));
                 food.add(temp);
             }
 

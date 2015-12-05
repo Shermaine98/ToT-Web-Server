@@ -6,10 +6,7 @@
 package DAO;
 
 import Database.DBConnectionFactory;
-import Model.Comments;
 import Model.Favorites;
-import Model.Food;
-import Model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
