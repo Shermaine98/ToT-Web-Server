@@ -57,4 +57,30 @@ public class FavoritesDAO {
         }
         return null;
     }
+    
+    public boolean removeFavorite(int userID, int foodID){
+        
+        boolean result = false;
+        
+        try {
+            DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
+            ArrayList<Favorites> Favorites = new ArrayList<>();
+            Connection conn = myFactory.getConnection();
+
+            PreparedStatement pstmt = conn.prepareStatement(""
+                    + "delete from favorite where idUser=? and FOODID=?");
+            pstmt.setInt(1, userID);
+            pstmt.setInt(2, foodID);
+            int count = pstmt.executeUpdate();
+            result = (count > 0);
+
+            pstmt.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(FavoritesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return result;
+    }
+    
 }

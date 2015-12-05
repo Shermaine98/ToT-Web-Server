@@ -31,7 +31,8 @@ public class FoodDAO {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
             ArrayList<Food> FoodTop = new ArrayList<>();
             Connection conn = myFactory.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Food F JOIN RESTAURANTS R on F.RestaurantName = R.RestaurantName\n"
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * "
+                    + "FROM Food F JOIN RESTAURANTS R on F.RestaurantName = R.RestaurantName\n"
                     + "WHERE F.RATING > 0\n"
                     + "ORDER BY F.RATING DESC LIMIT 5;");
             ResultSet rs = pstmt.executeQuery();

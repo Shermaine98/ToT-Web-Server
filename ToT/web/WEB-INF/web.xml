@@ -24,6 +24,14 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>Controller.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RemoveFavorite</servlet-name>
+        <servlet-class>Controller.RemoveFavorite</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetHistory</servlet-name>
+        <servlet-class>Controller.GetHistory</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GetTopServlet</servlet-name>
         <url-pattern>/GetTopServlet</url-pattern>
@@ -47,6 +55,14 @@
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/LogoutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveFavorite</servlet-name>
+        <url-pattern>/RemoveFavorite</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetHistory</servlet-name>
+        <url-pattern>/GetHistory</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
