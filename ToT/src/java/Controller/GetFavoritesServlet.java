@@ -1,9 +1,15 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Controller;
 
 import DAO.CommentsDAO;
 import DAO.FavoritesDAO;
 import Model.Comments;
 import Model.Favorites;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -19,9 +25,7 @@ import org.json.JSONObject;
 
 /**
  *
- * @author Shermaine Sy
- * @author Geraldine Atayan
- * 
+ * @author shermainesy
  */
 public class GetFavoritesServlet extends HttpServlet {
 
@@ -56,10 +60,12 @@ public class GetFavoritesServlet extends HttpServlet {
                 obj.put("price", FavoritesList.get(i).getPrice());
                 obj.put("rating", FavoritesList.get(i).getRating());
                 obj.put("picture", FavoritesList.get(i).getPicture());
-
+                obj.put("RestaurantName", FavoritesList.get(i).getRestaurantName());
+                obj.put("address", FavoritesList.get(i).getAddress());
+                
                 favorites.put(obj);
                 ArrayList<Comments> temp = new ArrayList<>();
-                temp = cDao.GetFavoriteComments(FavoritesList.get(i).getFoodID());
+                temp = cDao.GetComments(FavoritesList.get(i).getFoodID());
 
                 for (int j = 0; j < temp.size(); j++) {
                     JSONObject comment = new JSONObject();

@@ -16,6 +16,8 @@ public class Favorites {
     private double price;
     private double rating;
     private int picture;
+       public String RestaurantName;
+          public String Address;
 
     /**
      * @return the UserName
@@ -127,6 +129,34 @@ public class Favorites {
      */
     public void setPicture(int picture) {
         this.picture = picture;
+    }
+
+    /**
+     * @return the RestaurantName
+     */
+    public String getRestaurantName() {
+        return RestaurantName;
+    }
+
+    /**
+     * @param RestaurantName the RestaurantName to set
+     */
+    public void setRestaurantName(String RestaurantName) {
+        this.RestaurantName = RestaurantName;
+    }
+
+    /**
+     * @return the Address
+     */
+    public String getAddress() {
+        return Address;
+    }
+
+    /**
+     * @param Address the Address to set
+     */
+    public void setAddress(String Address) {
+        this.Address = Address;
     }
 
 }

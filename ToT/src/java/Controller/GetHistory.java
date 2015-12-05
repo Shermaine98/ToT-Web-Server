@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Controller;
 
 import DAO.CommentsDAO;
@@ -16,11 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /**
  *
- * @author Shermaine Sy
  * @author Geraldine Atayan
- * 
  */
 public class GetHistory extends HttpServlet {
 
@@ -60,7 +64,7 @@ public class GetHistory extends HttpServlet {
 
                 arrayHistory.put(obj);
                 ArrayList<Comments> temp = new ArrayList<>();
-                temp = cDao.GetHistoryComments(history.get(i).getFoodID());
+                temp = cDao.GetComments(history.get(i).getFoodID());
 
                 for (int j = 0; j < temp.size(); j++) {
                     JSONObject comment = new JSONObject();
