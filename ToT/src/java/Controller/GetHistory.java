@@ -5,7 +5,9 @@
  */
 package Controller;
 
+import DAO.CommentsDAO;
 import DAO.HistoryDAO;
+import Model.Comments;
 import Model.Food;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,14 +42,16 @@ public class GetHistory extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             ArrayList<Food> history = new ArrayList<Food>();
-            
+            CommentsDAO cDao = new CommentsDAO();
             HistoryDAO dao = new HistoryDAO();
             int userID = Integer.parseInt(request.getParameter("userID"));
             history = dao.GetHistory(userID);
-            
-            JSONArray jsonHistory = new JSONArray();
-            
-            for(int i = 0; i< history.size(); i++){
+
+            //Get Top food id then find its comments then return the comments
+            JSONArray arrayHistory = new JSONArray();
+            JSONArray arrayComment = new JSONArray();
+
+            for (int i = 0; i < history.size(); i++) {
                 JSONObject obj = new JSONObject();
                 obj.put("foodID", history.get(i).getFoodID());
                 obj.put("foodName", history.get(i).getFoodName());
@@ -56,15 +60,27 @@ public class GetHistory extends HttpServlet {
                 obj.put("rating", history.get(i).getRating());
                 obj.put("picture", history.get(i).getPicture());
                 obj.put("RestaurantName", history.get(i).getRestaurantName());
-                
-                jsonHistory.put(obj);
+
+                arrayHistory.put(obj);
+                ArrayList<Comments> temp = new ArrayList<>();
+                temp = cDao.GetTopFoodComments(history.get(i).getFoodID());
+
+                for (int j = 0; j < temp.size(); j++) {
+                    JSONObject comment = new JSONObject();
+                    comment.put("CommentsID", temp.get(j).getCommentsID());
+                    comment.put("comments", temp.get(j).getComments());
+                    comment.put("IDUser", temp.get(j).getIDUser());
+                    comment.put("foodID", history.get(i).getFoodID());
+                    arrayComment.put(comment);
+                }
             }
-            
+
             JSONObject main = new JSONObject();
-            main.put("History", jsonHistory);
+            main.put("History", arrayHistory);
+            main.put("Comments", arrayComment);
 
             response.getWriter().print(main.toString());
-            
+
         }
     }
 
