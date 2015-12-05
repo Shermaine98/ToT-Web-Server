@@ -43,24 +43,23 @@ public class RandomizeServlet extends HttpServlet {
                 list = dao.GetAll();
                 int index = generator.nextInt(list.size());
                 result = list.get(index);
-                
             } else if (filter.equalsIgnoreCase("Price")) {
                 int price = Integer.parseInt(request.getParameter("price"));
                 list = dao.GetAllByPrice(price);
                 int index = generator.nextInt(list.size());
                 result = list.get(index);
             } else if (filter.equalsIgnoreCase("Location")) {
-                float longtitidue = Integer.parseInt(request.getParameter("longtitude"));
-                float latitude = Integer.parseInt(request.getParameter("latitue"));
-                float distance = Integer.parseInt(request.getParameter("distance"));
+                float longtitidue = Float.parseFloat(request.getParameter("longitude"));
+                float latitude = Float.parseFloat(request.getParameter("latitude"));
+                float distance = Float.parseFloat(request.getParameter("distance"));
                 result = calucation.getNearest(latitude, longtitidue, distance);
             } else if (filter.equalsIgnoreCase("Both")) {
                 double price = Double.parseDouble(request.getParameter("price"));
-                float longtitidue = Integer.parseInt(request.getParameter("longtitude"));
-                float latitude = Integer.parseInt(request.getParameter("latitue"));
-                float distance = Integer.parseInt(request.getParameter("distance"));
+                float longtitidue = Float.parseFloat(request.getParameter("longitude"));
+                float latitude = Float.parseFloat(request.getParameter("latitude"));
+                float distance = Float.parseFloat(request.getParameter("distance"));
                 result = calucation.getBoth(latitude, longtitidue, distance, price);
-                
+
             }
 
              Gson g = new Gson();
