@@ -1,6 +1,7 @@
 package Controller;
 
 import DAO.FoodDAO;
+import Model.Distance;
 import Model.Food;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -33,32 +34,38 @@ public class RandomizeServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
 
             String filter = request.getParameter("filterBy");
-               
+            Distance calucation = new Distance();
             Random generator = new Random();
-            Food randomized = new Food();
+            Food result = new Food();
             FoodDAO dao = new FoodDAO();
             ArrayList<Food> list = new ArrayList<>();
             if (filter.equalsIgnoreCase("None")) {
                 list = dao.GetAll();
                 int index = generator.nextInt(list.size());
-                randomized = list.get(index);
+                result = list.get(index);
+                
             } else if (filter.equalsIgnoreCase("Price")) {
                 int price = Integer.parseInt(request.getParameter("price"));
                 list = dao.GetAllByPrice(price);
-                 int index = generator.nextInt(list.size());
-                randomized = list.get(index);
+                int index = generator.nextInt(list.size());
+                result = list.get(index);
             } else if (filter.equalsIgnoreCase("Location")) {
-                list = dao.GetAllByLocation();
+                float longtitidue = Integer.parseInt(request.getParameter("longtitude"));
+                float latitude = Integer.parseInt(request.getParameter("latitue"));
+                float distance = Integer.parseInt(request.getParameter("distance"));
+                result = calucation.getNearest(latitude, longtitidue, distance);
             } else if (filter.equalsIgnoreCase("Both")) {
-                int price = Integer.parseInt(request.getParameter("price"));
-                list = dao.GetAllByBoth(price);
+                double price = Double.parseDouble(request.getParameter("price"));
+                float longtitidue = Integer.parseInt(request.getParameter("longtitude"));
+                float latitude = Integer.parseInt(request.getParameter("latitue"));
+                float distance = Integer.parseInt(request.getParameter("distance"));
+                result = calucation.getBoth(latitude, longtitidue, distance, price);
                 
             }
-            
-            
+
              Gson g = new Gson();
-             String randomized2 = g.toJson(randomized);
-             response.getWriter().print(randomized2);
+             String resultString = g.toJson(result);
+             response.getWriter().print(resultString);
         }
     }
 

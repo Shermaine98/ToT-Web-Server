@@ -147,8 +147,7 @@ public class FoodDAO {
             PreparedStatement pstmt = conn.prepareStatement("SELECT"
                     + "f.foodId, R.restaurantName, F.foodName, F.foodDescription, "
                     + "F.price, F.Rating, F.picture, R.Address, R.longitude, R.latitude "
-                    + "FROM Food F JOIN RESTAURANTS R on F.RestaurantName = R.RestaurantName "
-                    + "WHERE ");
+                    + "FROM Food F JOIN RESTAURANTS R on F.RestaurantName = R.RestaurantName");
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -161,8 +160,8 @@ public class FoodDAO {
                 temp.setRating(rs.getInt("Rating"));
                 temp.setPicture(rs.getInt("Picture"));
                 temp.setAddress(rs.getString("address"));
-                temp.setLongitude(rs.getDouble("longitude"));
-                temp.setLatitude(rs.getDouble("latitude"));
+                temp.setLongitude(rs.getFloat("longitude"));
+                temp.setLatitude(rs.getFloat("latitude"));
                 food.add(temp);
             }
 
@@ -180,7 +179,7 @@ public class FoodDAO {
      * @param price
      * @return 
      */
-    public ArrayList<Food> GetAllByBoth(int price) {
+    public ArrayList<Food> GetAllByBoth(double price) {
 
         ArrayList<Food> food = new ArrayList<>();
 
@@ -191,9 +190,8 @@ public class FoodDAO {
                     + "f.foodId, R.restaurantName, F.foodName, F.foodDescription, "
                     + "F.price, F.Rating, F.picture, R.Address, R.longitude, R.latitude "
                     + "FROM Food F JOIN RESTAURANTS R on F.RestaurantName = R.RestaurantName "
-                    + "WHERE Price < ? "
-                    + "AND ");
-            pstmt.setInt(1, price);
+                    + "WHERE Price <= ? ");
+            pstmt.setDouble(1, price);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -206,8 +204,8 @@ public class FoodDAO {
                 temp.setRating(rs.getInt("Rating"));
                 temp.setPicture(rs.getInt("Picture"));
                 temp.setAddress(rs.getString("address"));
-                temp.setLongitude(rs.getDouble("longitude"));
-                temp.setLatitude(rs.getDouble("latitude"));
+                temp.setLongitude(rs.getFloat("longitude"));
+                temp.setLatitude(rs.getFloat("latitude"));
                 food.add(temp);
             }
 
