@@ -40,7 +40,7 @@ public class HistoryDAO {
                 temp.setFoodDescription(rs.getString("FoodDescription"));
                 temp.setPicture(rs.getInt("Picture"));
                 temp.setPrice(rs.getDouble("Price"));
-                temp.setRating(rs.getInt("Rating"));
+                temp.setRating(rs.getDouble("Rating"));
                 temp.setAddress(rs.getString("Address"));
                 temp.setRestaurantName(rs.getString("RestaurantName"));
                 history.add(temp);

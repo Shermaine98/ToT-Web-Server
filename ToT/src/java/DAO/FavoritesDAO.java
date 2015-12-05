@@ -32,7 +32,7 @@ public class FavoritesDAO {
             Connection conn = myFactory.getConnection();
 
             PreparedStatement pstmt = conn.prepareStatement(""
-                    + "SELECT F.FoodID, F.FoodName, F.FoodDescription, F.Picture, U.username, U.idUser, F.price , R.address, R.RestaurantName"
+                    + "SELECT F.FoodID, F.FoodName, F.FoodDescription, F.Picture, F.rating, U.username, U.idUser, F.price , R.address, R.RestaurantName"
                     + " FROM Food F JOIN FAVORITE FV ON F.FoodID = FV.FoodID "
                     + "JOIN USER U ON FV.idUser = U.idUser "
                     + "JOIN restaurants R ON F.RestaurantName = R.RestaurantName "
@@ -41,6 +41,7 @@ public class FavoritesDAO {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Favorites temp = new Favorites();
+                temp.setRating(rs.getDouble("rating"));
                 temp.setPrice(rs.getDouble("price"));
                 temp.setUseriD(rs.getInt("idUser"));
                 temp.setUserName(rs.getString("userName"));
