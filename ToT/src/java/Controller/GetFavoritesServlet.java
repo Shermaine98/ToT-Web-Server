@@ -5,7 +5,9 @@
  */
 package Controller;
 
+import DAO.CommentsDAO;
 import DAO.FavoritesDAO;
+import Model.Comments;
 import Model.Favorites;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -42,11 +44,13 @@ public class GetFavoritesServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             ArrayList<Favorites> FavoritesList = new ArrayList<Favorites>();
 
+            CommentsDAO cDao = new CommentsDAO();
             FavoritesDAO dao = new FavoritesDAO();
             int paraUserId = Integer.parseInt(request.getParameter("userID"));
             FavoritesList = dao.GetFavorites(paraUserId);
 
             JSONArray favorites = new JSONArray();
+            JSONArray arrayComment = new JSONArray();
 
             for (int i = 0; i < FavoritesList.size(); i++) {
                 JSONObject obj = new JSONObject();
@@ -58,10 +62,22 @@ public class GetFavoritesServlet extends HttpServlet {
                 obj.put("picture", FavoritesList.get(i).getPicture());
 
                 favorites.put(obj);
+                ArrayList<Comments> temp = new ArrayList<>();
+                temp = cDao.GetFavoriteComments(FavoritesList.get(i).getFoodID());
+
+                for (int j = 0; j < temp.size(); j++) {
+                    JSONObject comment = new JSONObject();
+                    comment.put("CommentsID", temp.get(j).getCommentsID());
+                    comment.put("comments", temp.get(j).getComments());
+                    comment.put("IDUser", temp.get(j).getIDUser());
+                    comment.put("foodID", FavoritesList.get(i).getFoodID());
+                    arrayComment.put(comment);
+                }
             }
 
             JSONObject main = new JSONObject();
             main.put("Favorites", favorites);
+            main.put("Comments", arrayComment);
 
             response.getWriter().print(main.toString());
         }
