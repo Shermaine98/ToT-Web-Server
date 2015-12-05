@@ -8,9 +8,9 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Atayan
- * @author Sy
- *
+ * @author Shermaine Sy
+ * @author Geraldine Atayan
+ * 
  */
 public class DBConnectionFactoryImpl extends DBConnectionFactory {
 

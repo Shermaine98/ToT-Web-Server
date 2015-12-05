@@ -17,7 +17,9 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author shermainesy
+ * @author Shermaine Sy
+ * @author Geraldine Atayan
+ * 
  */
 public class FoodDAO {
 

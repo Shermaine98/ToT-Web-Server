@@ -17,8 +17,11 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author shermainesy
+ * @author Shermaine Sy
+ * @author Geraldine Atayan
+ * 
  */
+
 public class FavoritesDAO {
 
     public ArrayList<Favorites> GetFavorites(int UseriD) {
@@ -80,4 +83,67 @@ public class FavoritesDAO {
         return result;
     }
     
+    
+    
+    
+    /**
+     * Add Favorite
+     *
+     * 
+     * @param userID
+     * @param foodID
+     * @return
+     */
+    public boolean addFavorite(int userID, int foodID) {
+        try {
+            DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
+            Connection conn = myFactory.getConnection();
+            String query = "insert into favorite idUser,foodID) values (?,?)";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+
+            pstmt.setInt(1, userID);
+            pstmt.setInt(2, foodID);
+
+            int rows = pstmt.executeUpdate();
+            conn.close();
+            return rows == 1;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+     /**
+     * Checks if Exist
+     *
+     * @param userID
+     * @param foodID
+     * @return 
+     */
+    public boolean checkExistFavorite(int userID, int foodID) {
+
+        boolean exists = false;
+        
+        try {
+            DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
+            Connection conn = myFactory.getConnection();
+
+            String query = "SELECT EXISTS(SELECT 1 FROM favorite Where userID = ? AND foodID = ?);";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+
+            pstmt.setInt(1, userID);
+            pstmt.setInt(2, foodID);
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                exists = rs.getBoolean(1);
+            }
+            conn.close();
+            return exists;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return exists;
+    }
+
 }

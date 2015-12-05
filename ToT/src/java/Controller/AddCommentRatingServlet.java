@@ -5,8 +5,6 @@
  */
 package Controller;
 
-import DAO.UserDAO;
-import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -20,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Geraldine Atayan
  * 
  */
-public class RegisterServlet extends HttpServlet {
+public class AddCommentRatingServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,22 +33,16 @@ public class RegisterServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            String email = request.getParameter("email");
-
-            User user = new User(email, username, password);
-            UserDAO userDAO = new UserDAO();
-            
-            // TODO: return true to client else return false to client taost
-            if (userDAO.checkUsername(username) ){
-                response.getWriter().print("Username Exists");
-            } else if (userDAO.checkEmail(email)) {
-                response.getWriter().print("Email Exists");
-            } else {
-                boolean registered = userDAO.register(user);
-                response.getWriter().print(registered);
-            }
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet AddCommentRatingServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet AddCommentRatingServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

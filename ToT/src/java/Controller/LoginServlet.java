@@ -1,16 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller;
 
 import Model.User;
 import DAO.UserDAO;
 import com.google.gson.Gson;
 import java.io.IOException;
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author 
+ * @author Shermaine Sy
+ * @author Geraldine Atayan
+ * 
  */
 public class LoginServlet extends HttpServlet {
 

@@ -19,7 +19,9 @@ import org.json.JSONObject;
 
 /**
  *
- * @author shermainesy
+ * @author Shermaine Sy
+ * @author Geraldine Atayan
+ * 
  */
 public class GetTopServlet extends HttpServlet {
 

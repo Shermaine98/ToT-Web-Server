@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DAO;
 
 import Database.DBConnectionFactory;
@@ -17,8 +12,11 @@ import java.util.logging.Logger;
 
 /**
  *
+ * @author Shermaine Sy
  * @author Geraldine Atayan
+ * 
  */
+
 public class HistoryDAO {
 
     public ArrayList<Food> GetHistory(int userID) {
@@ -58,9 +56,65 @@ public class HistoryDAO {
     }
 
     /**
+     * getHistoryLastNumber
+     *
+     * @return
+     * @throws SQLException
+     */
+    public Integer getHistoryLastNumber() throws SQLException {
+        DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
+        Connection conn = myFactory.getConnection();
+        Integer i = 0;
+        String query = "SELECT MAX(historyID) from history";
+        PreparedStatement ps = conn.prepareStatement(query);
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            i = rs.getInt("MAX(historyID)");
+        }
+        if (i == 0) {
+            i = 0;
+        } else {
+            i += 1;
+        }
+        conn.close();
+        rs.close();
+        return i;
+    }
+
+    /**
+     * Add History
+     *
+     *
+     * @param userID
+     * @param foodID
+     * @return
+     */
+    public boolean addHistory(int userID, int foodID) {
+        try {
+            DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
+            Connection conn = myFactory.getConnection();
+            String query = "insert into history  (historyID,idUser,foodID) values (?,?,?)";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            Integer x = getHistoryLastNumber();
+            pstmt.setInt(1, x);
+            pstmt.setInt(2, userID);
+            pstmt.setInt(3, foodID);
+
+            int rows = pstmt.executeUpdate();
+            conn.close();
+            return rows == 1;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    /**
      * Check if foodID already exists in history table
      *
-     * @param username
+     * @param userID
+     * @param foodID
      * @return
      */
     public boolean checkHistory(int userID, int foodID) {
@@ -70,15 +124,11 @@ public class HistoryDAO {
         try {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
             Connection conn = myFactory.getConnection();
-
             String query = "SELECT EXISTS(SELECT 1 FROM history WHERE iduser = ? and foodid = ?);";
             PreparedStatement pstmt = conn.prepareStatement(query);
-
             pstmt.setInt(1, userID);
             pstmt.setInt(2, foodID);
-
             ResultSet rs = pstmt.executeQuery();
-
             if (rs.next()) {
                 exists = rs.getBoolean(1);
             }

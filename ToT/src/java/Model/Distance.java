@@ -12,7 +12,9 @@ import java.util.Random;
 
 /**
  *
- * @author shermainesy
+ * @author Shermaine Sy
+ * @author Geraldine Atayan
+ * 
  */
 public class Distance {
 

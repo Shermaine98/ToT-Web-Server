@@ -1,9 +1,9 @@
 package Model;
-
 /**
  *
- * @author shermaine sy
- * @author geraldine atayan
+ * @author Shermaine Sy
+ * @author Geraldine Atayan
+ * 
  */
 public class Food   {
 

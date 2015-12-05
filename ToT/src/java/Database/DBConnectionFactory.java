@@ -4,9 +4,9 @@ import java.sql.Connection;
 
 /**
  *
- * @author Atayan
- * @author Sy
- *
+ * @author Shermaine Sy
+ * @author Geraldine Atayan
+ * 
  */
 public abstract class DBConnectionFactory {
 

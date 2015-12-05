@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author shermainesy
+ * @author Shermaine Sy
+ * @author Geraldine Atayan
+ * 
  */
 public class RandomizeServlet extends HttpServlet {
 
