@@ -63,7 +63,7 @@ public class GetHistory extends HttpServlet {
 
                 arrayHistory.put(obj);
                 ArrayList<Comments> temp = new ArrayList<>();
-                temp = cDao.GetTopFoodComments(history.get(i).getFoodID());
+                temp = cDao.GetHistoryComments(history.get(i).getFoodID());
 
                 for (int j = 0; j < temp.size(); j++) {
                     JSONObject comment = new JSONObject();
