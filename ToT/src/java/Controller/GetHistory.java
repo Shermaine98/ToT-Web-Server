@@ -60,6 +60,7 @@ public class GetHistory extends HttpServlet {
                 obj.put("rating", history.get(i).getRating());
                 obj.put("picture", history.get(i).getPicture());
                 obj.put("RestaurantName", history.get(i).getRestaurantName());
+                obj.put("address", history.get(i).getAddress());
 
                 arrayHistory.put(obj);
                 ArrayList<Comments> temp = new ArrayList<>();
