@@ -28,12 +28,13 @@ public class HistoryDAO {
             ArrayList<Food> history = new ArrayList<>();
             Connection conn = myFactory.getConnection();
 
-            PreparedStatement pstmt = conn.prepareStatement(""
-                    + "SELECT H.FOODID, F.RestaurantName, F.FoodName, F.FoodDescription, F.Price, F.Rating, F.Picture \n"
-                    + "FROM HISTORY H JOIN FOOD F ON H.FOODID = F.FOODID WHERE H.IDUSER = ?");
+            PreparedStatement pstmt = conn.prepareStatement("SELECT H.IDUSER, H.FOODID, F.RestaurantName, F.FoodName, "
+                    + "F.FoodDescription, F.Price, F.Rating, F.Picture, R.address, R.longitude, R.LATITUDE\n"
+                    + "FROM HISTORY H JOIN FOOD F ON H.FOODID = F.FOODID\n"
+                    + "JOIN restaurants R ON F.RestaurantName = R.RestaurantName WHERE H.IDUSER = ?;");
             pstmt.setInt(1, userID);
             ResultSet rs = pstmt.executeQuery();
-            
+
             while (rs.next()) {
                 Food temp = new Food();
                 temp.setFoodID(rs.getInt("FoodID"));
@@ -55,11 +56,12 @@ public class HistoryDAO {
         }
         return null;
     }
-    
+
     /**
      * Check if foodID already exists in history table
+     *
      * @param username
-     * @return 
+     * @return
      */
     public boolean checkHistory(int userID, int foodID) {
 
