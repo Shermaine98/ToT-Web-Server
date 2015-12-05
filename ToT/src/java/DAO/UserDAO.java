@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -94,7 +93,6 @@ public class UserDAO {
                 user.setUserName(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
             }
-            System.out.println(user);
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);

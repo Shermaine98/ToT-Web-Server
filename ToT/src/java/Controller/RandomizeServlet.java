@@ -43,7 +43,7 @@ public class RandomizeServlet extends HttpServlet {
                 list = dao.GetAll();
                 int index = generator.nextInt(list.size());
                 result = list.get(index);
-            } else if (filter.equalsIgnoreCase("Price")) {
+            } else if (filter.equalsIgnoreCase("Price")) {   
                 int price = Integer.parseInt(request.getParameter("price"));
                 list = dao.GetAllByPrice(price);
                 int index = generator.nextInt(list.size());
@@ -52,17 +52,13 @@ public class RandomizeServlet extends HttpServlet {
                 float longtitidue = Float.parseFloat(request.getParameter("longitude"));
                 double latitude = Double.parseDouble(request.getParameter("latitude"));
                 double distance = Double.parseDouble(request.getParameter("distance"));
-                 System.out.print(longtitidue+ " " + latitude + " " + distance);
                 result = calucation.getFilteredLocation(latitude, longtitidue, distance);
-                System.out.print(result);
             } else if (filter.equalsIgnoreCase("Both")) {
                 double price = Double.parseDouble(request.getParameter("price"));
                 double longtitidue = Double.parseDouble(request.getParameter("longitude"));
                 double latitude = Double.parseDouble(request.getParameter("latitude"));
                 double distance = Double.parseDouble(request.getParameter("distance"));
                 result = calucation.getFilteredBoth(latitude, longtitidue, distance, price);
-                System.out.print(longtitidue+ " " + latitude + " " + distance + "" + price);
-                System.out.print(result.getFoodName());
             }
 
              Gson g = new Gson();
