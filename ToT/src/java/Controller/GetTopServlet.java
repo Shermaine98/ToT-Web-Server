@@ -64,9 +64,7 @@ public class GetTopServlet extends HttpServlet {
                 arrayFood.put(obj);
                 ArrayList<Comments> temp = new ArrayList<>();
                 temp = CommentDAO.GetComments(Topfood.get(i).getFoodID());
-                 System.out.println("print" + Topfood.get(i).getFoodID());
                 for (int j = 0; j < temp.size(); j++) {
-                    System.out.println(Topfood.get(i).getFoodID());
                     JSONObject comment = new JSONObject();
                     comment.put("CommentsID", temp.get(j).getCommentsID());
                     comment.put("comments", temp.get(j).getComments());

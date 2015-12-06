@@ -6,10 +6,13 @@
 package Controller;
 
 import DAO.CommentsDAO;
-import DAO.FavoritesDAO;
 import DAO.FoodDAO;
+import DAO.RatingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +36,7 @@ public class AddCommentRatingServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
            double newRating = Double.parseDouble(request.getParameter("rating"));
@@ -43,22 +46,25 @@ public class AddCommentRatingServlet extends HttpServlet {
            double currRating;
            CommentsDAO CommentsDAO = new CommentsDAO();
            FoodDAO FoodDAO = new FoodDAO();
-           
+           RatingDAO ratingDAO = new RatingDAO();
+          // String comment="hello";
+         //  double newRating=1.0;
+          // int FoodID=59;
+         //  int userID=0;
             if (comment.equalsIgnoreCase("null%") && newRating == 0.0) {
                 response.getWriter().print(false);
             } else if (!comment.equalsIgnoreCase("null%") && newRating != 0.0) {
-                currRating = FoodDAO.getRating(FoodID);
-                //(5*252 + 4*124 + 3*40 + 2*29 + 1*33)
-                double AddRating =  (currRating + newRating) / 2;
-                boolean result = FoodDAO.UpdateRating(AddRating, FoodID);
+                ratingDAO.addRating(userID, newRating, FoodID);
+                currRating = ratingDAO.SolveRating(FoodID);
+                boolean result = FoodDAO.UpdateRating(currRating, FoodID);
                 boolean result2 = CommentsDAO.addComments(userID, FoodID, comment);
                 if (result == true && result2 == true) {
                     response.getWriter().print(true);
                 }
             } else if (newRating != 0.0) {
-                currRating = FoodDAO.getRating(FoodID);
-                double AddRating = (currRating + newRating) / 2;
-                boolean result = FoodDAO.UpdateRating(AddRating, FoodID);
+                ratingDAO.addRating(userID, newRating, FoodID);
+                currRating = ratingDAO.SolveRating(FoodID);
+                boolean result = FoodDAO.UpdateRating(currRating, FoodID);
                 response.getWriter().print(result);
             } else if (!comment.equalsIgnoreCase("null%")) {
                 boolean result2 = CommentsDAO.addComments(userID, FoodID, comment);
@@ -79,7 +85,11 @@ public class AddCommentRatingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddCommentRatingServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -93,7 +103,11 @@ public class AddCommentRatingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddCommentRatingServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

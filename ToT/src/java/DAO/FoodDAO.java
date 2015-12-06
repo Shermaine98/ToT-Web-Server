@@ -111,7 +111,7 @@ public class FoodDAO {
         try {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
             Connection conn = myFactory.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Food WHERE Price < ?  ORDER BY FoodID");
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Food F JOIN RESTAURANTS R on F.RestaurantName = R.RestaurantName WHERE F.Price < ?  ORDER BY F.FoodID");
             pstmt.setInt(1, price);
             ResultSet rs = pstmt.executeQuery();
 
@@ -224,44 +224,20 @@ public class FoodDAO {
         return null;
     }
     
-    
-     public double getRating(int foodID) {
-        double rating = 0;
-        try {
-            DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
-            Connection conn = myFactory.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("SELECT Rating FROM FOOD WHERE FOODID = ?");
-            pstmt.setDouble(1, foodID);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                rating = rs.getDouble("Rating");
-            }
-            pstmt.close();
-            conn.close();
-            return rating;
-        } catch (SQLException ex) {
-            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return rating;
-    }
-     
       public boolean UpdateRating(double newRating, int FOODID) {
        boolean result =false;
           try {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
             Connection conn = myFactory.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("Update Food SET Rating = ? WHERE FOODID = ? ");
+            String query ="Update Food SET Rating = ? WHERE FOODID = ? ";
+            PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setDouble(1, newRating);
-             pstmt.setInt(2, FOODID);
-            int rs = pstmt.executeUpdate();
+            pstmt.setInt(2, FOODID);
 
-            while (rs > 0) {
-                result = true;
-            }
-            pstmt.close();
+            int i = pstmt.executeUpdate();
+               pstmt.close();
             conn.close();
-              return result;
+            return result = true;
         } catch (SQLException ex) {
             Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

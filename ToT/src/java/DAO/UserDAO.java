@@ -29,7 +29,7 @@ public class UserDAO {
             Connection conn = myFactory.getConnection();
             String query = "insert into user"
                     + "(idUser,email,username,password) "
-                    + "values (?,?,?,?)";
+                    + "values (?,?,?,password(?))";
             PreparedStatement pstmt = conn.prepareStatement(query);
 
             pstmt.setInt(1, lastId()+1);
@@ -80,7 +80,7 @@ public class UserDAO {
             DBConnectionFactory myFactory = DBConnectionFactory.getInstance();
             Connection conn = myFactory.getConnection();
 
-            String query = "select * from user where username = ? and password = ?";
+            String query = "select * from user where username = ? and password = password(?)";
             PreparedStatement pstmt = conn.prepareStatement(query);
 
             pstmt.setString(1, User.getUserName());
