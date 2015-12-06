@@ -70,17 +70,17 @@ public class RatingDAO {
         int count1 = 0;
         int count0 = 0;
         for (int i = 0; i < ratings.size(); i++) {
-            if (ratings.get(i) >= 5 && ratings.get(i) < 5 && ratings.get(i) > 4.99) {
+            if (ratings.get(i) ==5) {
                 count5++;
-            } else if (ratings.get(i) < 4.99 && ratings.get(i) > 3.99) {
+            } else if (ratings.get(i) == 4.0) {
                 count4++;
-            } else if (ratings.get(i) < 3.99 && ratings.get(i) > 2.99) {
+            } else if (ratings.get(i) == 3.0) {
                 count3++;
-            } else if (ratings.get(i) < 2.99 && ratings.get(i) > 1.99) {
+            } else if (ratings.get(i)==2.0) {
                 count2++;
-            } else if (ratings.get(i) < 1.99 && ratings.get(i) > .99) {
+            } else if (ratings.get(i)==1.0) {
                 count1++;
-            } else if (ratings.get(i) < .99) {
+            } else if (ratings.get(i)==0.0) {
                 count0++;
             }
         }
