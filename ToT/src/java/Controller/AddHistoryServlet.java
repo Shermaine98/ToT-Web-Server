@@ -44,7 +44,7 @@ public class AddHistoryServlet extends HttpServlet {
                 boolean result2 = history.addHistory(userID, foodID);
                 response.getWriter().print(result2);
             } else {
-                response.getWriter().print(result);
+                response.getWriter().print(false);
             }
         }
     }
