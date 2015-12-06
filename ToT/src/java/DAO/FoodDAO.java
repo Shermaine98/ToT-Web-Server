@@ -124,6 +124,9 @@ public class FoodDAO {
                 temp.setPrice(rs.getDouble("Price"));
                 temp.setRating(rs.getInt("Rating"));
                 temp.setPicture(rs.getInt("Picture"));
+                temp.setAddress(rs.getString("address"));
+                temp.setLongitude(rs.getFloat("longitude"));
+                temp.setLatitude(rs.getFloat("latitude"));
                 food.add(temp);
             }
 
