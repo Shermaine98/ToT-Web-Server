@@ -235,8 +235,8 @@ public class FoodDAO {
             pstmt.setInt(2, FOODID);
 
             int i = pstmt.executeUpdate();
-               pstmt.close();
-            conn.close();
+            pstmt.close();
+            conn.close(); 
             return result = true;
         } catch (SQLException ex) {
             Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
